@@ -26,4 +26,4 @@ jobs:
           context: .
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: scartalune/agate:latest
+          tags: scartalune/agate:3.3.6
