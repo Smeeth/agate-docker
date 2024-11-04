@@ -1,29 +1,49 @@
-name: Build Docker Container
+name: Build and Push Docker Image
 
+# The workflow is triggered on every push to the main branch
 on:
   push:
     branches:
       - main
 
+# Job definition
 jobs:
-  docker:
+  build:
+    # The job will run on the latest version of Ubuntu
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
+      # Step 1: Checkout the repository code
+      - name: Checkout Code
         uses: actions/checkout@v4
+        with:
+          # Ensure that all submodules are fetched if they exist
+          submodules: true
+
+      # Step 2: Set up QEMU for multi-architecture builds
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
+
+      # Step 3: Set up Docker Buildx for advanced build capabilities
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
+
+      # Step 4: Log in to Docker Hub
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Build and push
+          username: ${{ secrets.DOCKERHUB_USERNAME }}  # Docker Hub username from GitHub Secrets
+          password: ${{ secrets.DOCKERHUB_TOKEN }}      # Docker Hub token from GitHub Secrets
+
+      # Step 5: Build and push the Docker image
+      - name: Build and Push Docker Image
         uses: docker/build-push-action@v5
         with:
-          context: .
-          platforms: linux/amd64,linux/arm64
-          push: true
-          tags: scartalune/agate:3.3.9
+          context: .                                         # Build context is the current directory
+          platforms: linux/amd64,linux/arm64               # Target platforms for the build
+          push: true                                        # The image will be pushed to Docker Hub after build
+          tags: scartalune/agate:${{ github.sha }}         # Tag the Docker image with the commit SHA
+
+      # Step 6: Cleanup to remove unused Docker resources
+      - name: Clean up
+        run: docker system prune -f  # Removes unused images, containers, and networks
