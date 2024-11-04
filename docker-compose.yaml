@@ -1,0 +1,10 @@
+services:
+  agate:  # Define the service name
+    image: scartalune/agate  # Use the pre-built Docker image from Docker Hub
+    ports:
+      - "1965:1965"  # Map port 1965 on the host to port 1965 in the container
+    volumes:
+      - content:/content  # Create a named volume for persistent content storage
+
+volumes:
+  content:  # Define a named volume for content
