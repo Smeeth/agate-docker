@@ -1,0 +1,15 @@
+# Welcome to My Gemini Space
+
+=> /about  About Me
+=> /projects  My Projects
+=> /blog  Blog Posts
+=> /contact  Contact Information
+
+# Latest Updates
+- Project A: A brief description of Project A.
+- Project B: A brief description of Project B.
+- Blog Post 1: A summary of my latest blog post.
+
+# Resources
+=> /resources  Useful Links
+=> /docs  Documentation
