@@ -4,7 +4,7 @@ RUN apk add --no-cache cargo git \
   && git clone https://github.com/mbrubeck/agate.git /usr/src/agate \
   && cargo install --path /usr/src/agate
 
-FROM alpine:3.21.3
+FROM alpine:3.22.1
 RUN apk add --no-cache bash sudo tini 
 COPY --from=builder /usr/local/cargo/bin/agate /usr/bin/agate
 COPY --from=builder /usr/src/agate/content /content
